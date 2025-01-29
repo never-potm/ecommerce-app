@@ -2,6 +2,5 @@ POST http://localhost:8080/api/public/categories
 Content-Type: application/json
 
 {
-  "categoryId": 1,
   "categoryName": "Electronics"
 }
