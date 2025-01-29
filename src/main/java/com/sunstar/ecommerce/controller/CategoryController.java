@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class CategoryController {
 
 	// we can either use @Autowired annotation or write a constructor
@@ -22,18 +23,21 @@ public class CategoryController {
 //	}
 
 	@GetMapping("/api/public/categories")
+//	@RequestMapping(method = RequestMethod.GET, value = "/public/categories")
 	public ResponseEntity<List<Category>> getAllCategories() {
 		List<Category> categories = categoryService.getAllCategoriess();
 		return ResponseEntity.status(HttpStatus.OK).body(categories);
 	}
 
 	@PostMapping("/api/public/categories")
+//	@RequestMapping(method = RequestMethod.POST, value = "/public/categories")
 	public ResponseEntity<String> createCategory(@RequestBody Category category) {
 		categoryService.createCategory(category);
 		return ResponseEntity.status(HttpStatus.CREATED).body("Category added");
 	}
 
 	@DeleteMapping("/api/admin/categories/{categoryId}")
+//	@RequestMapping(method = RequestMethod.DELETE, value = "/admin/categories/{categoryId}")
 	public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId) {
 		try {
 			String status = categoryService.deleteCategory(categoryId);
@@ -44,6 +48,7 @@ public class CategoryController {
 	}
 
 	@PutMapping("/api/public/categories/{categoryId}")
+//	@RequestMapping(method = RequestMethod.PUT, value = "/public/categories/{categoryId}")
 	public ResponseEntity<String> updateCategory(@RequestBody Category category, @PathVariable Long categoryId) {
 		try {
 			Category updatedCategory = categoryService.updateCategory(category, categoryId);
