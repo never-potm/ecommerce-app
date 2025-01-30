@@ -2,6 +2,7 @@ package com.sunstar.ecommerce.controller;
 
 import com.sunstar.ecommerce.model.Category;
 import com.sunstar.ecommerce.service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class CategoryController {
 
 	@PostMapping("/public/categories")
 //	@RequestMapping(method = RequestMethod.POST, value = "/public/categories")
-	public ResponseEntity<String> createCategory(@RequestBody Category category) {
+	public ResponseEntity<String> createCategory(@Valid @RequestBody Category category) {
 		categoryService.createCategory(category);
 		return ResponseEntity.status(HttpStatus.CREATED).body("Category added");
 	}
