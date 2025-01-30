@@ -22,21 +22,21 @@ public class CategoryController {
 //		this.categoryService = categoryService;
 //	}
 
-	@GetMapping("/api/public/categories")
+	@GetMapping("/public/categories")
 //	@RequestMapping(method = RequestMethod.GET, value = "/public/categories")
 	public ResponseEntity<List<Category>> getAllCategories() {
 		List<Category> categories = categoryService.getAllCategoriess();
 		return ResponseEntity.status(HttpStatus.OK).body(categories);
 	}
 
-	@PostMapping("/api/public/categories")
+	@PostMapping("/public/categories")
 //	@RequestMapping(method = RequestMethod.POST, value = "/public/categories")
 	public ResponseEntity<String> createCategory(@RequestBody Category category) {
 		categoryService.createCategory(category);
 		return ResponseEntity.status(HttpStatus.CREATED).body("Category added");
 	}
 
-	@DeleteMapping("/api/admin/categories/{categoryId}")
+	@DeleteMapping("/admin/categories/{categoryId}")
 //	@RequestMapping(method = RequestMethod.DELETE, value = "/admin/categories/{categoryId}")
 	public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId) {
 		try {
@@ -47,7 +47,7 @@ public class CategoryController {
 		}
 	}
 
-	@PutMapping("/api/public/categories/{categoryId}")
+	@PutMapping("/public/categories/{categoryId}")
 //	@RequestMapping(method = RequestMethod.PUT, value = "/public/categories/{categoryId}")
 	public ResponseEntity<String> updateCategory(@RequestBody Category category, @PathVariable Long categoryId) {
 		try {

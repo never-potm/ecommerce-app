@@ -1,4 +1,4 @@
-PUT http://localhost:8080/api/admin/categories/1
+PUT http://localhost:8080/api/public/categories/1
 Content-Type: application/json
 
 {
