@@ -21,12 +21,18 @@ public class GlobalExceptionHandler {
 		Map<String, String> response = new HashMap<>();
 
 		e.getBindingResult().getAllErrors().forEach(error -> {
-			String fieldName = ((FieldError)error).getField();
+			String fieldName = ((FieldError) error).getField();
 			String message = error.getDefaultMessage();
 
 			response.put(fieldName, message);
 		});
 
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<String> customResourceNotFoundException(ResourceNotFoundException e) {
+		String message = e.getMessage();
+		return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
 	}
 }
