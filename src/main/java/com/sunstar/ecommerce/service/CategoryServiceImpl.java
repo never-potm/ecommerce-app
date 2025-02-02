@@ -1,5 +1,6 @@
 package com.sunstar.ecommerce.service;
 
+import com.sunstar.ecommerce.exceptions.APIException;
 import com.sunstar.ecommerce.exceptions.ResourceNotFoundException;
 import com.sunstar.ecommerce.model.Category;
 import com.sunstar.ecommerce.repositories.CategoryRepository;
@@ -22,6 +23,10 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public void createCategory(Category category) {
+		Category savedCategory = categoryRepository.findByCategoryName(category.getCategoryName());
+		if (savedCategory != null) {
+			throw new APIException("Category with name " + category.getCategoryName() + " already exists");
+		}
 		categoryRepository.save(category);
 	}
 
