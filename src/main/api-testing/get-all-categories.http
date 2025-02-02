@@ -3,5 +3,5 @@ GET http://localhost:8080/api/public/categories
 ###
 
 ### GET request to example server
-GET http://localhost:8080/api/public/categories?pageNumber=0&pageSize=3
+GET http://localhost:8080/api/public/categories?pageNumber=2&pageSize=3
 ###
