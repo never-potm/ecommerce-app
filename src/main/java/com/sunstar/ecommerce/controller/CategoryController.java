@@ -1,6 +1,7 @@
 package com.sunstar.ecommerce.controller;
 
 import com.sunstar.ecommerce.model.Category;
+import com.sunstar.ecommerce.payload.CategoryDTO;
 import com.sunstar.ecommerce.payload.CategoryResponse;
 import com.sunstar.ecommerce.service.CategoryService;
 import jakarta.validation.Valid;
@@ -30,9 +31,9 @@ public class CategoryController {
 
 	@PostMapping("/public/categories")
 //	@RequestMapping(method = RequestMethod.POST, value = "/public/categories")
-	public ResponseEntity<String> createCategory(@Valid @RequestBody Category category) {
-		categoryService.createCategory(category);
-		return ResponseEntity.status(HttpStatus.CREATED).body("Category added");
+	public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
+		CategoryDTO savedCategoryDTO = categoryService.createCategory(categoryDTO);
+		return new ResponseEntity<>(savedCategoryDTO, HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/admin/categories/{categoryId}")
