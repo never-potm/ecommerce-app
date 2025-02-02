@@ -23,8 +23,11 @@ public class CategoryController {
 
 	@GetMapping("/public/categories")
 //	@RequestMapping(method = RequestMethod.GET, value = "/public/categories")
-	public ResponseEntity<CategoryResponse> getAllCategories() {
-		CategoryResponse categories = categoryService.getAllCategoriess();
+	public ResponseEntity<CategoryResponse> getAllCategories(
+			@RequestParam(name = "pageNumber") Integer pageNumber,
+			@RequestParam(name = "pageSize") Integer pageSize
+    ) {
+		CategoryResponse categories = categoryService.getAllCategoriess(pageNumber, pageSize);
 		return ResponseEntity.status(HttpStatus.OK).body(categories);
 	}
 

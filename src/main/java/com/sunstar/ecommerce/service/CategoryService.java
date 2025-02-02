@@ -4,7 +4,7 @@ import com.sunstar.ecommerce.payload.CategoryDTO;
 import com.sunstar.ecommerce.payload.CategoryResponse;
 
 public interface CategoryService {
-	CategoryResponse getAllCategoriess();
+	CategoryResponse getAllCategoriess(Integer pageNumber, Integer pageSize);
 
 	CategoryDTO createCategory(CategoryDTO categoryDTO);
 
