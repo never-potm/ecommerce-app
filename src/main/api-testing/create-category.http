@@ -11,5 +11,5 @@ POST http://localhost:8080/api/public/categories
 Content-Type: application/json
 
 {
-  "categoryName": ""
+  "categoryName": "a"
 }
