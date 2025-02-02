@@ -5,3 +5,7 @@ GET http://localhost:8080/api/public/categories
 ### GET request to example server
 GET http://localhost:8080/api/public/categories?pageNumber=2&pageSize=3
 ###
+
+### GET request to example server
+GET http://localhost:8080/api/public/categories?sortBy=categoryName&sortOrder=desc
+###
