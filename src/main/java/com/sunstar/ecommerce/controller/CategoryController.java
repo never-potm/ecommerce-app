@@ -1,6 +1,5 @@
 package com.sunstar.ecommerce.controller;
 
-import com.sunstar.ecommerce.model.Category;
 import com.sunstar.ecommerce.payload.CategoryDTO;
 import com.sunstar.ecommerce.payload.CategoryResponse;
 import com.sunstar.ecommerce.service.CategoryService;
@@ -45,8 +44,9 @@ public class CategoryController {
 
 	@PutMapping("/public/categories/{categoryId}")
 //	@RequestMapping(method = RequestMethod.PUT, value = "/public/categories/{categoryId}")
-	public ResponseEntity<String> updateCategory(@Valid @RequestBody Category category, @PathVariable Long categoryId) {
-		Category updatedCategory = categoryService.updateCategory(category, categoryId);
-		return ResponseEntity.status(HttpStatus.OK).body("Category updated");
+	public ResponseEntity<CategoryDTO> updateCategory(@Valid @RequestBody CategoryDTO categoryDTO,
+	                                                  @PathVariable Long categoryId) {
+		CategoryDTO savedCategoryDTO = categoryService.updateCategory(categoryDTO, categoryId);
+		return new ResponseEntity<>(savedCategoryDTO, HttpStatus.OK);
 	}
 }
