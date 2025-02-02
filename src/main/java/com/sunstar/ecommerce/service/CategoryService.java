@@ -1,11 +1,10 @@
 package com.sunstar.ecommerce.service;
 
 import com.sunstar.ecommerce.model.Category;
-
-import java.util.List;
+import com.sunstar.ecommerce.payload.CategoryResponse;
 
 public interface CategoryService {
-	List<Category> getAllCategoriess();
+	CategoryResponse getAllCategoriess();
 
 	void createCategory(Category category);
 

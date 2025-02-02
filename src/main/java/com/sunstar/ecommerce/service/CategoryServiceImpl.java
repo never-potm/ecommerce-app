@@ -3,7 +3,10 @@ package com.sunstar.ecommerce.service;
 import com.sunstar.ecommerce.exceptions.APIException;
 import com.sunstar.ecommerce.exceptions.ResourceNotFoundException;
 import com.sunstar.ecommerce.model.Category;
+import com.sunstar.ecommerce.payload.CategoryDTO;
+import com.sunstar.ecommerce.payload.CategoryResponse;
 import com.sunstar.ecommerce.repositories.CategoryRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +19,24 @@ public class CategoryServiceImpl implements CategoryService {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
+	@Autowired
+	private ModelMapper modelMapper;
+
 	@Override
-	public List<Category> getAllCategoriess() {
+	public CategoryResponse getAllCategoriess() {
 		List<Category> allCategories = categoryRepository.findAll();
 		if (allCategories.isEmpty()) {
 			throw new APIException("No categories found");
 		}
-		return allCategories;
+
+		List<CategoryDTO> categoryDTOS = allCategories.stream()
+		                                      .map(category -> modelMapper.map(category, CategoryDTO.class))
+		                                      .toList();
+
+		CategoryResponse allCategoriesResponse = new CategoryResponse();
+		allCategoriesResponse.setContent(categoryDTOS);
+
+		return allCategoriesResponse;
 	}
 
 	@Override

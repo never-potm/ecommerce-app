@@ -1,14 +1,13 @@
 package com.sunstar.ecommerce.controller;
 
 import com.sunstar.ecommerce.model.Category;
+import com.sunstar.ecommerce.payload.CategoryResponse;
 import com.sunstar.ecommerce.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -24,8 +23,8 @@ public class CategoryController {
 
 	@GetMapping("/public/categories")
 //	@RequestMapping(method = RequestMethod.GET, value = "/public/categories")
-	public ResponseEntity<List<Category>> getAllCategories() {
-		List<Category> categories = categoryService.getAllCategoriess();
+	public ResponseEntity<CategoryResponse> getAllCategories() {
+		CategoryResponse categories = categoryService.getAllCategoriess();
 		return ResponseEntity.status(HttpStatus.OK).body(categories);
 	}
 
