@@ -2,7 +2,7 @@ POST http://localhost:8080/api/public/categories
 Content-Type: application/json
 
 {
-  "categoryName": "Electronics123456"
+  "categoryName": "Electronics1"
 }
 
 ### GET request with parameter

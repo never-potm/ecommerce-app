@@ -1,5 +1,6 @@
 package com.sunstar.ecommerce.controller;
 
+import com.sunstar.ecommerce.config.AppConstants;
 import com.sunstar.ecommerce.payload.CategoryDTO;
 import com.sunstar.ecommerce.payload.CategoryResponse;
 import com.sunstar.ecommerce.service.CategoryService;
@@ -24,8 +25,8 @@ public class CategoryController {
 	@GetMapping("/public/categories")
 //	@RequestMapping(method = RequestMethod.GET, value = "/public/categories")
 	public ResponseEntity<CategoryResponse> getAllCategories(
-			@RequestParam(name = "pageNumber") Integer pageNumber,
-			@RequestParam(name = "pageSize") Integer pageSize
+			@RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+			@RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize
     ) {
 		CategoryResponse categories = categoryService.getAllCategoriess(pageNumber, pageSize);
 		return ResponseEntity.status(HttpStatus.OK).body(categories);
