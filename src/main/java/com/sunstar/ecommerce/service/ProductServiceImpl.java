@@ -4,11 +4,15 @@ import com.sunstar.ecommerce.exceptions.ResourceNotFoundException;
 import com.sunstar.ecommerce.model.Category;
 import com.sunstar.ecommerce.model.Product;
 import com.sunstar.ecommerce.payload.ProductDTO;
+import com.sunstar.ecommerce.payload.ProductResponse;
 import com.sunstar.ecommerce.repositories.CategoryRepository;
 import com.sunstar.ecommerce.repositories.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -37,5 +41,18 @@ public class ProductServiceImpl implements ProductService {
 		Product savedProduct = productRepository.save(product);
 
 		return modelMapper.map(savedProduct, ProductDTO.class);
+	}
+
+	@Override
+	public ProductResponse getAllProducts() {
+		List<Product> products = productRepository.findAll();
+		List<ProductDTO> productDTOList = products.stream()
+		                                          .map(product -> modelMapper.map(product, ProductDTO.class))
+		                                          .toList();
+
+		ProductResponse productResponse = new ProductResponse();
+		productResponse.setContent(productDTOList);
+
+		return productResponse;
 	}
 }

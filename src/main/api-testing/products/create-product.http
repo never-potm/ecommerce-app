@@ -8,12 +8,3 @@ Content-Type: application/json
   "price": 500,
   "discount": 15
 }
-
-### GET request with parameter
-
-POST http://localhost:8080/api/public/categories
-Content-Type: application/json
-
-{
-  "categoryName": "a"
-}
