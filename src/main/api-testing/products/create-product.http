@@ -1,0 +1,19 @@
+POST http://localhost:8080/api/admin/categories/1/products
+Content-Type: application/json
+
+{
+  "productName": "Product3",
+  "description": "Product description",
+  "quantity": 10,
+  "price": 500,
+  "discount": 15
+}
+
+### GET request with parameter
+
+POST http://localhost:8080/api/public/categories
+Content-Type: application/json
+
+{
+  "categoryName": "a"
+}
