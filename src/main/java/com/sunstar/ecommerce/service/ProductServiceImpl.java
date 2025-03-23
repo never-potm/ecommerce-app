@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -68,6 +67,21 @@ public class ProductServiceImpl implements ProductService {
 		List<ProductDTO> productDTOList = categoryProducts.stream()
 		                                          .map(product -> modelMapper.map(product, ProductDTO.class))
 		                                          .toList();
+
+		ProductResponse productResponse = new ProductResponse();
+		productResponse.setContent(productDTOList);
+
+		return productResponse;
+	}
+
+	@Override
+	public ProductResponse searchProductByKeyword(String keyword) {
+
+		List<Product> categoryProducts = productRepository.findByProductNameLikeIgnoreCase('%' + keyword + '%');
+
+		List<ProductDTO> productDTOList = categoryProducts.stream()
+		                                                  .map(product -> modelMapper.map(product, ProductDTO.class))
+		                                                  .toList();
 
 		ProductResponse productResponse = new ProductResponse();
 		productResponse.setContent(productDTOList);

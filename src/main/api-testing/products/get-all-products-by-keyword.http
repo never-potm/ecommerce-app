@@ -1,0 +1,3 @@
+### GET request with parameter
+
+GET http://localhost:8080/api/public/products/keyword/Ro
