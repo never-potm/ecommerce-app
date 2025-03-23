@@ -2,9 +2,5 @@ PUT http://localhost:8080/api/admin/products/1
 Content-Type: application/json
 
 {
-  "productName": "Updated product",
-  "description": "Updated product description",
-  "quantity": 10,
-  "price": 500,
-  "discount": 10
+  "productName": "Updated product"
 }
