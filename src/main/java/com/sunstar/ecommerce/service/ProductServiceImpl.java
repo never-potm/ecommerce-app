@@ -60,13 +60,14 @@ public class ProductServiceImpl implements ProductService {
 
 		Category category =
 				categoryRepository.findById(categoryId)
-				                  .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId",categoryId));
+				                  .orElseThrow(
+						                  () -> new ResourceNotFoundException("Category", "categoryId", categoryId));
 
 		List<Product> categoryProducts = productRepository.findByCategoryOrderByPriceAsc(category);
 
 		List<ProductDTO> productDTOList = categoryProducts.stream()
-		                                          .map(product -> modelMapper.map(product, ProductDTO.class))
-		                                          .toList();
+		                                                  .map(product -> modelMapper.map(product, ProductDTO.class))
+		                                                  .toList();
 
 		ProductResponse productResponse = new ProductResponse();
 		productResponse.setContent(productDTOList);
@@ -87,5 +88,24 @@ public class ProductServiceImpl implements ProductService {
 		productResponse.setContent(productDTOList);
 
 		return productResponse;
+	}
+
+	@Override
+	public ProductDTO updateProduct(Long productId, Product product) {
+
+		Product existingProduct = productRepository.findById(productId)
+		                                           .orElseThrow(
+				                                           () -> new ResourceNotFoundException("Product", "productId",
+				                                                                               productId));
+
+		existingProduct.setProductName(product.getProductName());
+		existingProduct.setDescription(product.getDescription());
+		existingProduct.setPrice(product.getPrice());
+		existingProduct.setDiscount(product.getDiscount());
+		existingProduct.setSpecialPrice(product.getSpecialPrice());
+
+		Product savedProduct = productRepository.save(existingProduct);
+
+		return modelMapper.map(savedProduct, ProductDTO.class);
 	}
 }
