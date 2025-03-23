@@ -1,5 +1,6 @@
 package com.sunstar.ecommerce.service;
 
+import com.sunstar.ecommerce.exceptions.APIException;
 import com.sunstar.ecommerce.exceptions.ResourceNotFoundException;
 import com.sunstar.ecommerce.model.Category;
 import com.sunstar.ecommerce.model.Product;
@@ -45,15 +46,27 @@ public class ProductServiceImpl implements ProductService {
 		                                      orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId",
 		                                                                                      categoryId));
 
-		Product product = modelMapper.map(productDTO, Product.class);
-		product.setImage("default.png");
-		product.setCategory(category);
-		double specialPrice = product.getPrice() - ((product.getDiscount() * 0.01) * product.getPrice());
+		boolean isProductNotPresent = true;
+		List<Product> products = category.getProducts();
+		for (Product product : products) {
+			if (product.getProductName().equalsIgnoreCase(productDTO.getProductName())) {
+				isProductNotPresent = false;
+				break;
+			}
+		}
 
-		product.setSpecialPrice(specialPrice);
-		Product savedProduct = productRepository.save(product);
+		if (isProductNotPresent) {
+			Product product = modelMapper.map(productDTO, Product.class);
+			product.setImage("default.png");
+			product.setCategory(category);
+			double specialPrice = product.getPrice() - ((product.getDiscount() * 0.01) * product.getPrice());
 
-		return modelMapper.map(savedProduct, ProductDTO.class);
+			product.setSpecialPrice(specialPrice);
+			Product savedProduct = productRepository.save(product);
+
+			return modelMapper.map(savedProduct, ProductDTO.class);
+		}
+		throw new APIException("Product already exists");
 	}
 
 	@Override
@@ -62,6 +75,10 @@ public class ProductServiceImpl implements ProductService {
 		List<ProductDTO> productDTOList = products.stream()
 		                                          .map(product -> modelMapper.map(product, ProductDTO.class))
 		                                          .toList();
+
+		if (productDTOList.isEmpty()) {
+			throw new APIException("No products found");
+		}
 
 		ProductResponse productResponse = new ProductResponse();
 		productResponse.setContent(productDTOList);
@@ -82,6 +99,10 @@ public class ProductServiceImpl implements ProductService {
 		List<ProductDTO> productDTOList = categoryProducts.stream()
 		                                                  .map(product -> modelMapper.map(product, ProductDTO.class))
 		                                                  .toList();
+
+		if (productDTOList.isEmpty()) {
+			throw new APIException("No products found for this category");
+		}
 
 		ProductResponse productResponse = new ProductResponse();
 		productResponse.setContent(productDTOList);
