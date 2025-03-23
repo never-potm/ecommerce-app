@@ -10,8 +10,14 @@ import com.sunstar.ecommerce.repositories.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -131,5 +137,44 @@ public class ProductServiceImpl implements ProductService {
 		productRepository.delete(existingProduct);
 
 		return modelMapper.map(existingProduct, ProductDTO.class);
+	}
+
+	@Override
+	public ProductDTO updateProductImage(Long productId, MultipartFile image)
+			throws IOException {
+
+		Product product = productRepository.findById(productId)
+		                                           .orElseThrow(
+				                                           () -> new ResourceNotFoundException("Product", "productId",
+				                                                                               productId));
+
+		String path = "images/";
+		String fileName = uploadImage(path, image);
+
+		product.setImage(fileName);
+
+		Product updatedProduct = productRepository.save(product);
+
+		return modelMapper.map(updatedProduct, ProductDTO.class);
+	}
+
+	private String uploadImage(String path, MultipartFile imageFile)
+			throws IOException {
+		String originalFilename = imageFile.getOriginalFilename();
+
+		String randomId = UUID.randomUUID().toString();
+
+		String fileName = randomId.concat(originalFilename.substring(originalFilename.lastIndexOf('.')));
+
+		String filePath = path + File.pathSeparator + fileName;
+
+		File folder = new File(path);
+		if (!folder.exists()) {
+			folder.mkdir();
+		}
+
+		Files.copy(imageFile.getInputStream(), Paths.get(filePath));
+
+		return fileName;
 	}
 }

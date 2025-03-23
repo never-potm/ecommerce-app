@@ -1,0 +1,8 @@
+PUT http://localhost:8080/api/products/1/image
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="Image"; filename="product.jpeg"
+
+< ./product.jpeg
+--WebAppBoundary--
